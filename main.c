@@ -95,7 +95,7 @@ int main(void)
         valid = 1;
     }
     //-----
-    char cc = 255;
+    char cc = 255, c = 255;
     int i = start,
         j = 0;
 
@@ -111,8 +111,27 @@ int main(void)
 //            return 1;
 //        }
         start = parsToSymbol(path, start, '/', result);
-        for (int j = 0; j < slen(result); ++j) {
+        int size = slen(result);
 
+        for(j = 0; j < size; ++j) {
+            c = rezult[i];
+            char error[128] = {'\0'};
+            switch ((int)c) {
+                case (int)'\\':
+                case (int)'*':
+                case (int)':':
+                case (int)'?':
+                case (int)'\"':
+                case (int)'<':
+                case (int)'>':
+                case (int)'|':
+                    sprintf(error, "URL sintax errow !"
+                          "\n%s\n%s", path, result);
+                    perror(error);
+                    return 1;
+                default:
+                    break;
+            }
         }
         substructPath(start, path, substractedPath);
         i++;
