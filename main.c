@@ -26,7 +26,7 @@ void input(char path[])
 
 int main(void)
 {
-    char path[] = "http://192.167.1.7/sup*er/duper",
+    char path[] = "ftp://192.167.1.7/sup*er/duper",
          result[32];
 
     cheking(path);
