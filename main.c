@@ -21,10 +21,8 @@ void input(char path[])
     fgets(path, 260, stdin);
 }
 
-int parsToSymbol(char string[],
-                  int fromSymbolNum,
-                  char toSymbol,
-                  char returningPart[])
+int parsToSymbol(char string[], int fromSymbolNum,
+                 char toSymbol, char returningPart[])
 {
     char currentSymbol = 255;
     while(currentSymbol != toSymbol)
@@ -38,24 +36,24 @@ int parsToSymbol(char string[],
             return -1;
         }
     }
-    returningPart[fromSymbolNum] = '\0';
+    returningPart[fromSymbolNum-1] = '\0';
     return fromSymbolNum;
 }
 
-int main(void)
+void parsToPos(char string[], int from, int to,char returningPart[])
 {
-    char path[260] = {'\0'},
-         result[32];
-    input(path);
+    int i = 0;
+    for(i = from; i < from+to; i++)
+    {
+        returningPart[abs(i - from)] = string[i];
+    }
+    returningPart[abs(i - from)] = '\0';
+}
 
-    int start = 0, _start = 0;
-    start = parsToSymbol(path, 0, ':', result);
-
-//    char parsedStr[64][255];
-    char substractedPath[255];
-
+void substructPath(int start, char path[], char substractedPath[])
+{
     char currentChar = 255;
-    _start = start;
+    int _start = start;
 
     while(currentChar != '\0')
     {
@@ -63,7 +61,63 @@ int main(void)
         currentChar = path[start];
         start++;
     }
+}
 
+int slen(char str[])
+{
+    int i = 0;
+    char c = 255;
+    while(c != '\0'){
+        c = str[i];
+        i++;
+    }
+    return i;
+}
+
+int main(void)
+{
+    char path[] = "http://192.167.1.7/super/duper",
+         result[32];
+ //   input(path);
+//    path = "http://192.167.1.7/super/duper";
+
+    int start = 0;
+    start = parsToSymbol(path, 0, ':', result);
+    char substractedPath[255];
+
+    substructPath(start, path, substractedPath);
+
+    // check
+    int valid = 0;
+    parsToPos(path, start, 2, result);
+    start += 2;
+    if (result[0] = '/' && result[1] == '/') {
+        valid = 1;
+    }
+    //-----
+    char cc = 255;
+    int i = start,
+        j = 0;
+
+    while(cc != '\0')
+    {
+        cc = substractedPath[0];
+//        start = parsToSymbol(path, start, '\\', result);
+//        if(start != -1){
+//            /*
+//             * TODO error
+//             */
+//            printf("path: %s,\n  is invalid", path);
+//            return 1;
+//        }
+        start = parsToSymbol(path, start, '/', result);
+        for (int j = 0; j < slen(result); ++j) {
+
+        }
+        substructPath(start, path, substractedPath);
+        i++;
+    }
+    // /check
     printf("path: %s\n result: %s"
            "\n endNum: %i\n substractionPath: %s\n",
            path, result, start, substractedPath);
