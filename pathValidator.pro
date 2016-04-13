@@ -6,9 +6,11 @@ CONFIG -= qt
 SOURCES += \
     main.c\
     errorloger.c \
-    check.c
+    check.c \
+    processing.c
 
 HEADERS += \
     errorloger.h \
-    check.h
+    check.h \
+    processing.h
 

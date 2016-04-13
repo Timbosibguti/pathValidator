@@ -18,19 +18,27 @@
  * * * путь нужно вернуть для замены символов
  */
 
-void input(char path[])
+void input(char path[], char symbol, char alease)
 {
     fgets(path, 260, stdin);
+    printf("symbol: ");
+    scanf("%c", &symbol);
+    //printf("alease: ");
+    //gets("%c", &alease);
 }
 
 
 int main(void)
 {
-    char path[] = "ftp://2d2.167.1.7/sup*er/duper",
-         result[32];
+    char path[260],
+         symbol, alease = '_',
+         result[260];
+
+    input(path, &symbol, alease);
 
     cheking(path);
-
+    processing(path, symbol, alease, result);
+    printf("\n---------------\n%s", result);
     return 0;
 }
 

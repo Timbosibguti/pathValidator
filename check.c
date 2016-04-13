@@ -88,6 +88,7 @@ int symbolValidation(char word[])
         case (int)'\"':
         case (int)'\'':
         case (int)'*':
+        case (int)'^':
         case (int)':':
         case (int)'?':
         case (int)'<':
@@ -111,13 +112,41 @@ int pathValidation(char url[], char substractedPath[], int start)
         cc = substractedPath[0];
         int _start = start;
         start = parsToSymbol(url, start, '/', result);
-        if(valid = symbolValidation(result)){
-            return adressError(url, start - valid, "unexpected symbol");
+        if((valid = symbolValidation(result))){
+            return adressError(url, _start-1 + valid, "unexpected symbol");
         }
         substructStr(start, url, substractedPath);
     }
 
     return valid;
+}
+
+int validationOfIP(char ip[], int pos, char url[])
+{
+    char c = 255,
+         octet[4];
+    int i = 0,
+        dotPos = 0;
+    int _start = pos;
+    while(c != '\0'){
+        c = ip[i];
+        if( (c > 'A' && c < 'Z') || (c > 'a' && c < 'z') )
+            return adressError(url, _start+1, "undexpected char in octet,\n\t the octet most consist of numbers in range from 0 to 255");
+
+        if(c != '.' && c != '\0')
+            octet[i - dotPos] = c;
+        else{
+            if(atoi(octet) > 255 || atoi(octet) < 0)
+                return adressError(url, _start+dotPos, "An octet most consist of numbers in range from 0 to 255");
+
+            dotPos = i+1;
+            octet[0] = '\0';
+            octet[1] = '\0';
+            octet[2] = '\0';
+            octet[3] = '\0';
+        }
+        i++;
+    }
 }
 
 int cheking(char url[])
@@ -131,37 +160,21 @@ int cheking(char url[])
     // check a protocol
     valid = protocolValidation(result);
     if( !valid ){
-        return adressError(url, start, "unexpected protocol");
+        return adressError(url, 0, "unexpected protocol");
     }
     // /check a protocol
+
     substructStr(start, url, substractedPath);
-    // check
     parsToPos(url, start, 2, result);
     start += 2;
     if (charSumm(result) != charSumm("//")){
         errno = EFAULT;
-        perror("sintax error");
+        perror("sintax error, must be [protocol]://");
     }
 
-    parsToSymbol(url, start, '/', result);
-    char c = 255,
-         octet[4];
-    int i = 0,
-        dotPos = 0;
-    while(c != '\0'){
-        c = result[i];
-        if( (c > 'A' && c < 'Z') || (c > 'a' && c < 'z') )
-            return adressError(url, start+1, "undexpected char in octet,\n\t the octet most consist of numbers in range from 0 to 255");
-        if(c != '.')
-            octet[i - dotPos] = c;
-        else{
-            if(atoi(octet) > 255 || atoi(octet) < 0)
-                return
-
-            dotPos += i+1;
-        }
-        i++;
-    }
+    start = parsToSymbol(url, start, '/', result);
+    validationOfIP(result, start, url);
+    substructStr(start, url, substractedPath);
 
     return pathValidation(url, substractedPath, start);
 }
