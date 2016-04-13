@@ -31,10 +31,5 @@ int strError(int errorType, char str[], int errPos, char strType[], char errMsg[
 
 int adressError(char adres[], int errPos, char errMsg[])
 {
-    strError(EFAULT, adres, errPos, "URL", errMsg);
-
-    return errno;
+    return strError(EFAULT, adres, errPos, "URL", errMsg);
 }
-
-
-

@@ -21,7 +21,7 @@
 
 // /const items
 
-int cheking(char str[]);
+int cheking(char url[]);
 
 
 int parsToSymbol(char string[], int fromSymbolNum, char toSymbol, char returningPart[]);

@@ -16,7 +16,7 @@ int parsToSymbol(char string[], int fromSymbolNum, char toSymbol, char returning
             return -1;
         }
     }
-    returningPart[abs(fromSymbolNum- _fromSymbolNum)-1] = '\0';
+    returningPart[abs(fromSymbolNum - _fromSymbolNum)-1] = '\0';
     return fromSymbolNum;
 }
 
@@ -55,10 +55,10 @@ int slen(char str[])
 }
 // /public
 // private:
-int protocolValidation(char result)
+int protocolValidation(char protName[])
 {
     int valid = 0;
-    switch (charSumm(result))
+    switch (charSumm(protName))
     {
     case HTTP:
     case _HTTP:
@@ -77,68 +77,99 @@ int protocolValidation(char result)
     return valid;
 }
 
-int cheking(char str[])
+int symbolValidation(char word[])
+{
+    int i, size = slen(word);
+    for(i = 0; i < size; ++i) {
+        char c = word[i];
+        switch((int)c)
+        {
+        case (int)'\\':
+        case (int)'\"':
+        case (int)'\'':
+        case (int)'*':
+        case (int)':':
+        case (int)'?':
+        case (int)'<':
+        case (int)'>':
+        case (int)'|':
+            return i+1;
+        default:
+            break;
+        }
+    }
+    return 0;
+}
+
+int pathValidation(char url[], char substractedPath[], int start)
+{
+    int valid = 0;
+    char result[240] = {'\0'};
+    char cc = 255;
+
+    while(cc != '\0'){
+        cc = substractedPath[0];
+        int _start = start;
+        start = parsToSymbol(url, start, '/', result);
+        if(valid = symbolValidation(result)){
+            return adressError(url, start - valid, "unexpected symbol");
+        }
+        substructStr(start, url, substractedPath);
+    }
+
+    return valid;
+}
+
+int cheking(char url[])
 {
     char result[32],
-            substractedPath[255];
+         substractedPath[255];
     int valid = 0;
     int start = 0;
 
-    start = parsToSymbol(str, 0, ':', result);
+    start = parsToSymbol(url, 0, ':', result);
     // check a protocol
     valid = protocolValidation(result);
     if( !valid ){
-        return adressError(str, start, "unexpected protocol");
+        return adressError(url, start, "unexpected protocol");
     }
     // /check a protocol
-    substructStr(start, str, substractedPath);
+    substructStr(start, url, substractedPath);
     // check
-    parsToPos(str, start, 2, result);
+    parsToPos(url, start, 2, result);
     start += 2;
     if (charSumm(result) != charSumm("//")){
-//    if (result[0] != '/' && result[1] != '/') {
         errno = EFAULT;
         perror("sintax error");
-    }///todo else
-    //-----
-    char cc = 255,
-         c = 255;
-    int i = start,
-        j = 0;
+    }
 
-    while(cc != '\0')
-    {
-        cc = substractedPath[0];
-        int _start = start;
-        start = parsToSymbol(str, start, '/', result);
+    parsToSymbol(url, start, '/', result);
+    char c = 255,
+         octet[4];
+    int i = 0,
+        dotPos = 0;
+    while(c != '\0'){
+        c = result[i];
+        if( (c > 'A' && c < 'Z') || (c > 'a' && c < 'z') )
+            return adressError(url, start+1, "undexpected char in octet,\n\t the octet most consist of numbers in range from 0 to 255");
+        if(c != '.')
+            octet[i - dotPos] = c;
+        else{
+            if(atoi(octet) > 255 || atoi(octet) < 0)
+                return
 
-        for(j = 0; j < slen(result); ++j) {
-            c = result[j];
-            char error[128] = {'\0'};
-            switch((int)c)
-            {
-            case (int)'\\':
-            case (int)'*':
-            case (int)':':
-            case (int)'?':
-            case (int)'\"':
-            case (int)'<':
-            case (int)'>':
-            case (int)'|':
-                return adressError(str, _start+j, "unexpected char");
-            default:
-                break;
-            }
+            dotPos += i+1;
         }
-        substructStr(start, str, substractedPath);
         i++;
     }
+
+    return pathValidation(url, substractedPath, start);
 }
 
 int charSumm(char str[])
 {
     int i = 0,
-            summ = 0;
+        summ = 0;
     char c = 255;
     while (c != '\0') {
         c = str[i];
@@ -148,5 +179,3 @@ int charSumm(char str[])
     return summ;
 }
 
-
-//int HTTP = charSumm("http");

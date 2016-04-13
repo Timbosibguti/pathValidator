@@ -26,10 +26,11 @@ void input(char path[])
 
 int main(void)
 {
-    char path[] = "ftp://192.167.1.7/sup*er/duper",
+    char path[] = "ftp://2d2.167.1.7/sup*er/duper",
          result[32];
 
     cheking(path);
+
     return 0;
 }
 
