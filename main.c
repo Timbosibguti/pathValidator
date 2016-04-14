@@ -1,8 +1,9 @@
-#pragma once
+//#pragma once
 
-#include <stdio.h>
-#include <math.h>
+
+//#include <math.h>
 #include "check.h"
+#include "processing.h"
 
 /*
  * TODO List
@@ -18,26 +19,27 @@
  * * * путь нужно вернуть для замены символов
  */
 
-void input(char path[], char symbol, char alease)
-{
-    fgets(path, 260, stdin);
-    printf("symbol: ");
-    scanf("%c", &symbol);
-    //printf("alease: ");
-    //gets("%c", &alease);
-}
+//void input(char *path, char symbol[], char alease[])
+//{
+//    fgets(path, 260, stdin);
+//    printf("symbol: ");
+//    gets(symbol);
+//    printf("alease: ");
+//    gets(alease);
+//    return;
+//}
 
 
 int main(void)
 {
     char path[260],
-         symbol, alease = '_',
+         symbol[3], alease[3],
          result[260];
 
-    input(path, &symbol, alease);
+    input(path, symbol, alease);
 
     cheking(path);
-    processing(path, symbol, alease, result);
+    processing(path, symbol[0], alease[0], result);
     printf("\n---------------\n%s", result);
     return 0;
 }

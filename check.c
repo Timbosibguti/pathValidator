@@ -112,7 +112,9 @@ int pathValidation(char url[], char substractedPath[], int start)
         cc = substractedPath[0];
         int _start = start;
         start = parsToSymbol(url, start, '/', result);
-        if((valid = symbolValidation(result))){
+        if( start == -1)
+            return valid;
+        if( ( valid = symbolValidation(result) ) ){
             return adressError(url, _start-1 + valid, "unexpected symbol");
         }
         substructStr(start, url, substractedPath);
@@ -124,7 +126,7 @@ int pathValidation(char url[], char substractedPath[], int start)
 int validationOfIP(char ip[], int pos, char url[])
 {
     char c = 255,
-         octet[4];
+         octet[4]= {'\0'};
     int i = 0,
         dotPos = 0;
     int _start = pos;
@@ -137,7 +139,7 @@ int validationOfIP(char ip[], int pos, char url[])
             octet[i - dotPos] = c;
         else{
             if(atoi(octet) > 255 || atoi(octet) < 0)
-                return adressError(url, _start+dotPos, "An octet most consist of numbers in range from 0 to 255");
+                return adressError(url, dotPos, "An octet most consist of numbers in range from 0 to 255");
 
             dotPos = i+1;
             octet[0] = '\0';

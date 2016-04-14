@@ -7,10 +7,12 @@ SOURCES += \
     main.c\
     errorloger.c \
     check.c \
-    processing.c
+    processing.c \
+    input.c
 
 HEADERS += \
     errorloger.h \
     check.h \
-    processing.h
+    processing.h \
+    input.h
 
