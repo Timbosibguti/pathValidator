@@ -4,6 +4,7 @@
 //#include <math.h>
 #include "check.h"
 #include "processing.h"
+#include "output.h"
 
 /*
  * TODO List
@@ -19,16 +20,6 @@
  * * * путь нужно вернуть для замены символов
  */
 
-//void input(char *path, char symbol[], char alease[])
-//{
-//    fgets(path, 260, stdin);
-//    printf("symbol: ");
-//    gets(symbol);
-//    printf("alease: ");
-//    gets(alease);
-//    return;
-//}
-
 
 int main(void)
 {
@@ -40,7 +31,7 @@ int main(void)
 
     cheking(path);
     processing(path, symbol[0], alease[0], result);
-    printf("\n---------------\n%s", result);
+    output(result);
     return 0;
 }
 

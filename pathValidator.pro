@@ -8,11 +8,13 @@ SOURCES += \
     errorloger.c \
     check.c \
     processing.c \
-    input.c
+    input.c \
+    output.c
 
 HEADERS += \
     errorloger.h \
     check.h \
     processing.h \
-    input.h
+    input.h \
+    output.h
 
