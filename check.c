@@ -139,7 +139,7 @@ int validationOfIP(char ip[], int pos, char url[])
             octet[i - dotPos] = c;
         else{
             if(atoi(octet) > 255 || atoi(octet) < 0)
-                return adressError(url, dotPos, "An octet most consist of numbers in range from 0 to 255");
+                return adressError(url, i+4, "An octet most consist of numbers in range from 0 to 255");
 
             dotPos = i+1;
             octet[0] = '\0';
