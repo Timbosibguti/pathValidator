@@ -66,8 +66,8 @@ int protocolValidation(char protName[])
     case _FTP:
     case SMB:
     case _SMB:
-    case RSYNK:
-    case _RSYNK:
+    case RSYNC:
+    case _RSYNC:
         valid = 1;
         break;
     default:

@@ -11,11 +11,11 @@
 //// protocols
 #define    HTTP     (int)'h' + 2*(int)'t' + (int)'p'
 #define    FTP      (int)'f' + (int)'t' + (int)'p'
-#define    RSYNK    (int)'r' + (int)'s' + (int)'y' + (int)'n' + (int)'k'
+#define    RSYNC    (int)'r' + (int)'s' + (int)'y' + (int)'n' + (int)'c'
 #define    SMB      (int)'s' + (int)'m' + (int)'b'
 #define    _HTTP    (int)'H' + 2*(int)'T' + (int)'P'
 #define    _FTP     (int)'F' + (int)'T' + (int)'P'
-#define    _RSYNK   (int)'R' + (int)'S' + (int)'Y' + (int)'N' + (int)'K'
+#define    _RSYNC   (int)'R' + (int)'S' + (int)'Y' + (int)'N' + (int)'C'
 #define    _SMB     (int)'S' + (int)'M' + (int)'B'
 //// /protocols
 
